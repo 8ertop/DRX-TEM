@@ -121,8 +121,9 @@ global.getText = function (...args) {
 
 try {
     var appStateFile = resolve(join(global.client.mainPath, global.config.APPSTATEPATH || "appstate.json"));
-    var appState = require(appStateFile);
-} catch {
+    var appState = JSON.parse(readFileSync(appStateFile, 'utf8'));
+} catch (err) {
+    console.log("Error loading appstate:", err.message);
     return logger.loader(global.getText("mirai", "notFoundPathAppstate"), "error");
 }
 
